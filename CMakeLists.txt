@@ -10,8 +10,10 @@ project(helgoboss-learn VERSION 0.1.0 LANGUAGES CXX)
 # Main target
 # Header-only library (= interface library) GSL doesn't offer find_package(), so we need to find its include directory
 # via find_path()
+find_package(helgoboss-midi 0.1.0 CONFIG REQUIRED)
+find_package(rxcpp CONFIG REQUIRED)
+find_package(wdl-eel2 CONFIG REQUIRED)
 find_path(GSL_INCLUDE_DIR gsl/gsl)
-add_subdirectory(lib/WDL/WDL/eel2)
 add_library(helgoboss-learn STATIC
     src/math-util.cpp
     src/MidiClockTransportMessageType.cpp
@@ -26,14 +28,11 @@ add_library(helgoboss-learn STATIC
     src/string-util.cpp
     src/Tempo.cpp
     )
-find_package(helgoboss-midi 0.1.0 CONFIG REQUIRED)
-find_package(rxcpp CONFIG REQUIRED)
 target_link_libraries(helgoboss-learn
-    PUBLIC
-    wdl-eel2::wdl-eel2
     PRIVATE
     helgoboss-midi::helgoboss-midi
     rxcpp
+    wdl-eel2::wdl-eel2
     )
 # Use generator syntax for INTERFACE-scoped includes to support usage of installed library (typical "Modern CMake"
 # pattern, see https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/)

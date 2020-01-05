@@ -6,4 +6,5 @@ boost-algorithm
 boost-variant
 rxcpp
 helgoboss-midi
+wdl-eel2
 --overlay-ports=../helgoboss-vcpkg-overlays/ports
