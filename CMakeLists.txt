@@ -29,7 +29,7 @@ add_library(helgoboss-learn STATIC
     src/Tempo.cpp
     )
 target_link_libraries(helgoboss-learn
-    PRIVATE
+    PUBLIC
     helgoboss-midi::helgoboss-midi
     rxcpp
     wdl-eel2::wdl-eel2
