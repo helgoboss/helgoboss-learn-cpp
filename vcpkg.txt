@@ -1,0 +1,9 @@
+ms-gsl
+catch2
+nlohmann-json
+boost-optional
+boost-algorithm
+boost-variant
+rxcpp
+helgoboss-midi
+--overlay-ports=../helgoboss-vcpkg-overlays/ports

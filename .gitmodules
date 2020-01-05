@@ -1,0 +1,12 @@
+[submodule "lib/vcpkg"]
+	path = lib/vcpkg
+	url = ../../microsoft/vcpkg.git
+[submodule "lib/helgoboss-midi"]
+	path = lib/helgoboss-midi
+	url = ../../helgoboss/helgoboss-midi.git
+[submodule "lib/helgoboss-vcpkg-overlays"]
+	path = lib/helgoboss-vcpkg-overlays
+	url = https://github.com/helgoboss/helgoboss-vcpkg-overlays.git
+[submodule "lib/WDL"]
+	path = lib/WDL
+	url = https://github.com/helgoboss/WDL.git
