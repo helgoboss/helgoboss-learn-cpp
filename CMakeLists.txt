@@ -11,8 +11,7 @@ project(helgoboss-learn VERSION 0.1.0 LANGUAGES CXX)
 # Header-only library (= interface library) GSL doesn't offer find_package(), so we need to find its include directory
 # via find_path()
 find_path(GSL_INCLUDE_DIR gsl/gsl)
-set(WDL_EEL2 ON CACHE INTERNAL "")
-add_subdirectory(lib/WDL/WDL)
+add_subdirectory(lib/WDL/WDL/eel2)
 add_library(helgoboss-learn STATIC
     src/math-util.cpp
     src/MidiClockTransportMessageType.cpp
@@ -29,10 +28,11 @@ add_library(helgoboss-learn STATIC
     )
 find_package(helgoboss-midi 0.1.0 CONFIG REQUIRED)
 find_package(rxcpp CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(helgoboss-learn
     PUBLIC
+    wdl-eel2::wdl-eel2
+    PRIVATE
     helgoboss-midi::helgoboss-midi
-    wdl-eel2
     rxcpp
     )
 # Use generator syntax for INTERFACE-scoped includes to support usage of installed library (typical "Modern CMake"
@@ -41,10 +41,7 @@ target_include_directories(helgoboss-learn
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/wdl-ol/WDL>
-    $<INSTALL_INTERFACE:lib/wdl-ol/WDL>
     PRIVATE
-    src
     ${GSL_INCLUDE_DIR}
     )
 # We want GSL Expects() to throw instead of aborting in order to enable clients to handle exceptions gracefully
@@ -57,25 +54,25 @@ set_target_properties(helgoboss-learn PROPERTIES CXX_EXTENSIONS OFF)
 add_library(helgoboss-learn::helgoboss-learn ALIAS helgoboss-learn)
 
 # Install
-#include(CMakePackageConfigHelpers)
-#include(GNUInstallDirs)
-#write_basic_package_version_file(helgoboss-learn-config-version.cmake COMPATIBILITY SameMajorVersion)
-#install(DIRECTORY include/helgoboss-learn DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-#install(TARGETS helgoboss-learn
-#    EXPORT helgoboss-learn-targets
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    )
-#install(EXPORT helgoboss-learn-targets
-#    NAMESPACE helgoboss-learn::
-#    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/helgoboss-learn
-#    )
-#install(FILES
-#    cmake/helgoboss-learn-config.cmake
-#    ${CMAKE_CURRENT_BINARY_DIR}/helgoboss-learn-config-version.cmake
-#    DESTINATION
-#    ${CMAKE_INSTALL_LIBDIR}/cmake/helgoboss-learn
-#    )
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+write_basic_package_version_file(helgoboss-learn-config-version.cmake COMPATIBILITY SameMajorVersion)
+install(DIRECTORY include/helgoboss-learn DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(TARGETS helgoboss-learn
+    EXPORT helgoboss-learn-targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+install(EXPORT helgoboss-learn-targets
+    NAMESPACE helgoboss-learn::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/helgoboss-learn
+    )
+install(FILES
+    cmake/helgoboss-learn-config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/helgoboss-learn-config-version.cmake
+    DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}/cmake/helgoboss-learn
+    )
 
 # Tests
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
