@@ -8,11 +8,11 @@ set(CMAKE_TOOLCHAIN_FILE "lib/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRI
 project(helgoboss-learn VERSION 0.1.0 LANGUAGES CXX)
 
 # Main target
-# Header-only library (= interface library) GSL doesn't offer find_package(), so we need to find its include directory
-# via find_path()
 find_package(helgoboss-midi 0.1.0 CONFIG REQUIRED)
 find_package(rxcpp CONFIG REQUIRED)
 find_package(wdl-eel2 CONFIG REQUIRED)
+# Header-only library (= interface library) GSL doesn't offer find_package(), so we need to find its include directory
+# via find_path()
 find_path(GSL_INCLUDE_DIR gsl/gsl)
 add_library(helgoboss-learn STATIC
     src/math-util.cpp
